@@ -9,6 +9,7 @@ import org.springframework.web.client.RestTemplate;
 public class Wikipedia {
 	
     private static final Logger log = LoggerFactory.getLogger(Wikipedia.class);
+    RestTemplate restTemplate = new RestTemplate();
 
     /**
      * Get a description of the artist with resource id from Wikipedia
@@ -18,10 +19,10 @@ public class Wikipedia {
      */
 	@SuppressWarnings("unchecked")
 	public String getDescription(String id) {
-        RestTemplate restTemplate = new RestTemplate();
         String extract = "";
         
 		Map<String,Object> map = restTemplate.getForObject("https://en.wikipedia.org/w/api.php?action=query&format=json&prop=extracts&exintro=true&redirects=true&titles=" + id, Map.class);
+		log.info("Wikipedia map: " + map.toString());
 		
         Map<String, Object> query = (Map<String, Object>)map.get("query");
         if (query == null) {
